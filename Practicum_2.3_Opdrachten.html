@@ -7599,7 +7599,8 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create a database connection</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Hier maken we de connectie naar de database aan.</span>
+<span class="c1"># Bij het verbinden naar de database, wordt er een nieuwe database aangemaakt als deze nog niet bestaat. Dus dit kan niet fout gaan.</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">'go_sales.sqlite'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Opened database successfully"</span><span class="p">)</span>
 </pre></div>
@@ -7653,7 +7654,7 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Read the tables from the database</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Hier lezen we alle tabellen van de database</span>
 <span class="n">product</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM product"</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
 <span class="n">product_type</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM product_type"</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
 <span class="n">product_line</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM product_line"</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
@@ -7666,7 +7667,7 @@ Zet eventuele warnings uit.</p>
 <span class="n">returned_item</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM returned_item"</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
 <span class="n">return_reason</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM return_reason"</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
 <span class="n">target</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM SALES_TARGETData"</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Tables read successfully"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Tabellen zijn allemaal gelezen"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7679,7 +7680,7 @@ Zet eventuele warnings uit.</p>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Tables read successfully
+<pre>Tabellen zijn allemaal gelezen
 </pre>
 </div>
 </div>
@@ -7726,14 +7727,14 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Convert 'PRODUCTION_COST' column to numeric</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Zet de 'PRODUCTION_COST' kolom om naar numeriek</span>
 <span class="n">product</span><span class="p">[</span><span class="s1">'PRODUCTION_COST'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s1">'PRODUCTION_COST'</span><span class="p">])</span>
 
-<span class="c1"># Filter the products where the production costs are between $50 and $100</span>
+<span class="c1"># Filter de producten met productiekosten tussen $50 en $100</span>
 <span class="n">filtered_product</span> <span class="o">=</span> <span class="n">product</span><span class="p">[(</span><span class="n">product</span><span class="p">[</span><span class="s1">'PRODUCTION_COST'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s1">'PRODUCTION_COST'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)]</span>
 
-<span class="c1"># Select only the columns for product name and production costs</span>
-<span class="c1"># Show the resulting dataframe</span>
+<span class="c1"># Selecteer de kolommen 'PRODUCT_NAME' en 'PRODUCTION_COST'</span>
+<span class="c1"># Het resultaat wordt afgedrukt met loc door de kolomnamen te gebruiken</span>
 <span class="n">filtered_product</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">'PRODUCT_NAME'</span><span class="p">,</span> <span class="s1">'PRODUCTION_COST'</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -7911,13 +7912,13 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Convert 'MARGIN' column to numeric</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Zet de 'MARGIN' kolom om naar numeriek</span>
 <span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
 
-<span class="c1"># Filter the products where the margin is lower than 20% or higher than 60%, with product name</span>
+<span class="c1"># Filter de producten waar de marge lager is dan 20% of hoger dan 60%, met productnaam</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">product</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.6</span><span class="p">),</span> <span class="p">[</span><span class="s1">'PRODUCT_NAME'</span><span class="p">,</span> <span class="s1">'MARGIN'</span><span class="p">]]</span>
 
-<span class="c1"># Show the resulting datafram</span>
+<span class="c1"># Toon het resulterende dataframe</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -8015,13 +8016,13 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the countries where payments are made in francs</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter de landen waar betalingen worden gedaan in francs</span>
 <span class="n">franc_countries</span> <span class="o">=</span> <span class="n">country</span><span class="p">[</span><span class="n">country</span><span class="p">[</span><span class="s1">'CURRENCY_NAME'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'francs'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-<span class="c1"># Sort the resulting dataframe by the country column</span>
+<span class="c1"># Sorteer het resulterende dataframe op de landkolom</span>
 <span class="n">franc_countries</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'COUNTRY'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># Show the resulting dataframe with only the country column</span>
+<span class="c1"># Toon het resulterende dataframe met alleen de landkolom</span>
 <span class="n">franc_countries</span><span class="p">[[</span><span class="s1">'COUNTRY'</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -8095,13 +8096,13 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the products where the margin is greater than 50%</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter de producten waar de marge groter is dan 50%</span>
 <span class="n">filtered_product</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">.50</span><span class="p">]</span>
 
-<span class="c1"># Select only the column for introduction date</span>
+<span class="c1"># Selecteer alleen de kolom voor introductiedatum</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_product</span><span class="p">[[</span><span class="s1">'INTRODUCTION_DATE'</span><span class="p">]]</span>
 
-<span class="c1"># Show the resulting dataframe</span>
+<span class="c1"># Toon het resulterende dataframe</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -8231,13 +8232,13 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the sales branches where both the second address and region are known</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter de verkoopfilialen waar zowel het tweede adres als de regio bekend zijn</span>
 <span class="n">filtered_sales_branches</span> <span class="o">=</span> <span class="n">sales_branch</span><span class="p">[(</span><span class="n">sales_branch</span><span class="p">[</span><span class="s1">'ADDRESS2'</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">())</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">sales_branch</span><span class="p">[</span><span class="s1">'REGION'</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">())]</span>
 
-<span class="c1"># Select only the columns for the first address and city</span>
+<span class="c1"># Selecteer alleen de kolommen voor het eerste adres en de stad</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_sales_branches</span><span class="p">[[</span><span class="s1">'ADDRESS1'</span><span class="p">,</span> <span class="s1">'CITY'</span><span class="p">]]</span>
 
-<span class="c1"># Show the resulting dataframe</span>
+<span class="c1"># Toon het resulterende dataframe</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -8335,13 +8336,13 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the countries where payments are made in dollars</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter de landen waar betalingen worden gedaan in dollars</span>
 <span class="n">dollar_countries</span> <span class="o">=</span> <span class="n">country</span><span class="p">[</span><span class="n">country</span><span class="p">[</span><span class="s1">'CURRENCY_NAME'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">'dollars'</span><span class="p">,</span> <span class="s1">'new dollar'</span><span class="p">])]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-<span class="c1"># Sort the resulting dataframe by the country column</span>
+<span class="c1"># Sorteer het resulterende dataframe op de landkolom</span>
 <span class="n">dollar_countries</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'COUNTRY'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># Show the resulting dataframe with only the country column</span>
+<span class="c1"># Toon het resulterende dataframe met alleen de landkolom</span>
 <span class="n">dollar_countries</span><span class="p">[[</span><span class="s1">'COUNTRY'</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -8419,13 +8420,13 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the customer branches where the postcode starts with 'D' and have a second address</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter de klantfilialen waar de postcode begint met 'D' en een tweede adres heeft</span>
 <span class="n">filtered_branches</span> <span class="o">=</span> <span class="n">retailer_site</span><span class="p">[(</span><span class="n">retailer_site</span><span class="p">[</span><span class="s1">'POSTAL_ZONE'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'D'</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">retailer_site</span><span class="p">[</span><span class="s1">'ADDRESS2'</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">())]</span>
 
-<span class="c1"># Select only the columns for the first address, second address, and city</span>
+<span class="c1"># Selecteer alleen de kolommen voor het eerste adres, tweede adres en stad</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_branches</span><span class="p">[[</span><span class="s1">'ADDRESS1'</span><span class="p">,</span> <span class="s1">'ADDRESS2'</span><span class="p">,</span> <span class="s1">'CITY'</span><span class="p">]]</span>
 
-<span class="c1"># Show the resulting dataframe</span>
+<span class="c1"># Toon het resulterende dataframe</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -8597,17 +8598,17 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the lowest, highest, and average margin of products</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Bereken de laagste, hoogste en gemiddelde marge van producten</span>
 <span class="n">lowest_margin</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 <span class="n">highest_margin</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 <span class="n">average_margin</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="c1"># Create variables for the lowest, highest, and average margin</span>
+<span class="c1"># Maak variabelen voor de laagste, hoogste en gemiddelde marge</span>
 <span class="n">lowest_margin_variable</span> <span class="o">=</span> <span class="n">lowest_margin</span>
 <span class="n">highest_margin_variable</span> <span class="o">=</span> <span class="n">highest_margin</span>
 <span class="n">average_margin_variable</span> <span class="o">=</span> <span class="n">average_margin</span>
 
-<span class="c1"># Print the variables</span>
+<span class="c1"># Druk de variabelen af</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lowest_margin_variable</span><span class="p">,</span> <span class="n">highest_margin_variable</span><span class="p">,</span> <span class="n">average_margin_variable</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8620,9 +8621,17 @@ Zet eventuele warnings uit.</p>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>0.17 0.7 0.4
-</pre>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[1], line 2</span>
+<span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)"># Bereken de laagste, hoogste en gemiddelde marge van producten</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span> laagste_marge <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">product</span>[<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">MARGIN</span><span style="color: rgb(175,0,0)">'</span>]<span style="color: rgb(98,98,98)">.</span>min()
+<span class="ansi-green-fg">      3</span> hoogste_marge <span style="color: rgb(98,98,98)">=</span> product[<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">MARGIN</span><span style="color: rgb(175,0,0)">'</span>]<span style="color: rgb(98,98,98)">.</span>max()
+<span class="ansi-green-fg">      4</span> gemiddelde_marge <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">round</span>(product[<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">MARGIN</span><span style="color: rgb(175,0,0)">'</span>]<span style="color: rgb(98,98,98)">.</span>mean(), <span style="color: rgb(98,98,98)">2</span>)
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'product' is not defined</pre>
 </div>
 </div>
 </div>
@@ -8685,16 +8694,16 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the products where a discount is given</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter de producten waar korting wordt gegeven</span>
 <span class="n">discounted_products</span> <span class="o">=</span> <span class="n">order_details</span><span class="p">[</span><span class="n">order_details</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">order_details</span><span class="p">[</span><span class="s1">'UNIT_PRICE'</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-<span class="c1"># Convert 'UNIT_COST' column to numeric</span>
+<span class="c1"># Zet de 'UNIT_COST' kolom om naar numeriek</span>
 <span class="n">discounted_products</span><span class="p">[</span><span class="s1">'UNIT_COST'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">discounted_products</span><span class="p">[</span><span class="s1">'UNIT_COST'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
 
-<span class="c1"># Calculate the average cost price</span>
+<span class="c1"># Bereken de gemiddelde kostprijs</span>
 <span class="n">average_cost_price</span> <span class="o">=</span> <span class="n">discounted_products</span><span class="p">[</span><span class="s1">'UNIT_COST'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="c1"># Print the result</span>
+<span class="c1"># Druk het resultaat af</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">average_cost_price</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8958,13 +8967,13 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the customer branches from 'Netherlands'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter de klantfilialen van 'Nederland'</span>
 <span class="n">netherlands_branches</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">retailer_site</span><span class="p">,</span> <span class="n">country</span><span class="p">[</span><span class="n">country</span><span class="p">[</span><span class="s1">'COUNTRY'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Netherlands'</span><span class="p">],</span> <span class="n">on</span><span class="o">=</span><span class="s1">'COUNTRY_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Select only the columns for the first address and city</span>
+<span class="c1"># Selecteer alleen de kolommen voor het eerste adres en de stad</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">netherlands_branches</span><span class="p">[[</span><span class="s1">'ADDRESS1'</span><span class="p">,</span> <span class="s1">'CITY'</span><span class="p">]]</span>
 
-<span class="c1"># Show the resulting dataframe</span>
+<span class="c1"># Toon het resulterende dataframe</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -9210,16 +9219,16 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Merge the retailer_site and sales_staff dataframes on the 'SALES_STAFF_ID' column</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voeg de retailer_site en sales_staff dataframes samen op de kolom 'SALES_BRANCH_CODE'</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sales_branch</span><span class="p">,</span> <span class="n">sales_staff</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'SALES_BRANCH_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Filter the merged dataframe for 'Branch Manager' sales staff</span>
+<span class="c1"># Filter het samengevoegde dataframe voor verkoopmedewerkers met de functie 'Branch Manager'</span>
 <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'POSITION_EN'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Branch Manager'</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
 
-<span class="c1"># Select the columns for the first address, first name, and last name</span>
+<span class="c1"># Selecteer de kolommen voor het eerste adres, voornaam en achternaam</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_data</span><span class="p">[[</span><span class="s1">'ADDRESS1'</span><span class="p">,</span> <span class="s1">'FIRST_NAME'</span><span class="p">,</span> <span class="s1">'LAST_NAME'</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="c1"># Show the resulting dataframe</span>
+<span class="c1"># Toon het resulterende dataframe</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -9289,16 +9298,16 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the sales staff with 'Manager' in their position name</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter het verkooppersoneel met 'Manager' in hun functienaam</span>
 <span class="n">filtered_sales_staff</span> <span class="o">=</span> <span class="n">sales_staff</span><span class="p">[</span><span class="n">sales_staff</span><span class="p">[</span><span class="s1">'POSITION_EN'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">'Manager'</span><span class="p">)]</span>
 
-<span class="c1"># Merge the filtered sales staff with the order_header dataframe on 'SALES_STAFF_CODE'</span>
+<span class="c1"># Voeg het gefilterde verkooppersoneel samen met het order_header dataframe op 'SALES_STAFF_CODE'</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">filtered_sales_staff</span><span class="p">,</span> <span class="n">order_header</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">'SALES_STAFF_CODE'</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">'SALES_STAFF_CODE'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
 
-<span class="c1"># Step 3: Select the columns for position and sale date and remove duplicates</span>
+<span class="c1"># Stap 3: Selecteer de kolommen voor functie en verkoopdatum en verwijder duplicaten</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[[</span><span class="s1">'POSITION_EN'</span><span class="p">,</span> <span class="s1">'ORDER_DATE'</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
 
-<span class="c1"># Show the resulting dataframe</span>
+<span class="c1"># Toon het resulterende dataframe</span>
 <span class="n">resultaat</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">"Geen Verkoop"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -9406,17 +9415,17 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the order details where the quantity sold is greater than 750</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter de orderdetails waar de verkochte hoeveelheid groter is dan 750</span>
 <span class="n">filtered_order_details</span> <span class="o">=</span> <span class="n">order_details</span><span class="p">[</span><span class="n">order_details</span><span class="p">[</span><span class="s1">'QUANTITY'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">750</span><span class="p">]</span>
 
-<span class="c1"># Merge the filtered order details with the product and product type dataframes</span>
+<span class="c1"># Voeg de gefilterde orderdetails samen met de product- en producttype-dataframes</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">filtered_order_details</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'PRODUCT_NUMBER'</span><span class="p">)</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged_data</span><span class="p">,</span> <span class="n">product_type</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'PRODUCT_TYPE_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Select the columns for product name and product type name</span>
+<span class="c1"># Selecteer de kolommen voor productnaam en producttype naam</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[[</span><span class="s1">'PRODUCT_NAME'</span><span class="p">,</span> <span class="s1">'PRODUCT_TYPE_EN'</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
 
-<span class="c1"># Show the resulting dataframe</span>
+<span class="c1"># Toon het resulterende dataframe</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -9524,20 +9533,20 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Grab the merged data on PRODUCT_NUMBER in the table product and order_details</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Grijp de samengevoegde gegevens op PRODUCT_NUMBER in de product- en order_details-tabel</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">order_details</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'PRODUCT_NUMBER'</span><span class="p">)</span>
 
-<span class="c1"># Convert UNIT_PRICE and UNIT_SALE_PRICE columns to numeric</span>
+<span class="c1"># Zet de kolommen UNIT_PRICE en UNIT_SALE_PRICE om naar numeriek</span>
 <span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_PRICE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_PRICE'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
 <span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
 
-<span class="c1"># Filter the data on the formula and if the sale price is 40% lower</span>
+<span class="c1"># Filter de gegevens op de formule en als de verkoopprijs 40% lager is</span>
 <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_PRICE'</span><span class="p">]</span> <span class="o">-</span> <span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">])</span> <span class="o">/</span> <span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_PRICE'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.4</span><span class="p">]</span>
 
-<span class="c1"># Make sure that all the data is unique</span>
+<span class="c1"># Zorg ervoor dat alle gegevens uniek zijn</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_data</span><span class="p">[</span><span class="s1">'PRODUCT_NAME'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 
-<span class="c1"># Create a DataFrame with the resultaat values in the PRODUCT_NAME column</span>
+<span class="c1"># Maak een DataFrame met de resultaatwaarden in de PRODUCT_NAME kolom</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resultaat</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'PRODUCT_NAME'</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -9631,16 +9640,16 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Perform the join between 'returned_item' and 'order_details' based on 'ORDER_DETAIL_CODE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voer de samenvoeging uit tussen 'returned_item' en 'order_details' op basis van 'ORDER_DETAIL_CODE'</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">returned_item</span><span class="p">,</span> <span class="n">order_details</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'ORDER_DETAIL_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Perform the join between the resulting DataFrame and 'return_reason' based on 'RETURN_REASON_CODE'</span>
+<span class="c1"># Voer de samenvoeging uit tussen het resulterende DataFrame en 'return_reason' op basis van 'RETURN_REASON_CODE'</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged_data</span><span class="p">,</span> <span class="n">return_reason</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'RETURN_REASON_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Apply the required filter and select unique values for 'RETURN_DESCRIPTION_EN'</span>
+<span class="c1"># Pas de vereiste filter toe en selecteer unieke waarden voor 'RETURN_DESCRIPTION_EN'</span>
 <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'RETURN_QUANTITY'</span><span class="p">]</span> <span class="o">/</span> <span class="n">merged_data</span><span class="p">[</span><span class="s1">'QUANTITY'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">]</span>
 
-<span class="c1"># Select the unique return descriptions</span>
+<span class="c1"># Selecteer de unieke retourbeschrijvingen</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_data</span><span class="p">[</span><span class="s1">'RETURN_DESCRIPTION_EN'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resultaat</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'RETURN_DESCRIPTION_EN'</span><span class="p">])</span>
@@ -9727,13 +9736,13 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Merge the product and product_type tables on 'PRODUCT_TYPE_CODE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voeg de product- en product_type-tabellen samen op 'PRODUCT_TYPE_CODE'</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">product_type</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'PRODUCT_TYPE_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Perform a groupby operation on the 'PRODUCT_TYPE_EN' column and count the number of products</span>
-<span class="n">resultaat</span> <span class="o">=</span> <span class="n">merged_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'PRODUCT_TYPE_EN'</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Number of Products'</span><span class="p">)</span>
+<span class="c1"># Voer een groupby-operatie uit op de kolom 'PRODUCT_TYPE_EN' en tel het aantal producten</span>
+<span class="n">resultaat</span> <span class="o">=</span> <span class="n">merged_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'PRODUCT_TYPE_EN'</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'Aantal producten'</span><span class="p">)</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -9901,16 +9910,16 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Merge the country and retailer_site tables on 'COUNTRY_CODE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voeg de country- en retailer_site-tabellen samen op 'COUNTRY_CODE'</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="n">retailer_site</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'COUNTRY_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Perform a groupby operation on the 'COUNTRY' column and count the number of branches</span>
+<span class="c1"># Voer een groupby-operatie uit op de kolom 'COUNTRY' en tel het aantal filialen</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">merged_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'COUNTRY'</span><span class="p">)[</span><span class="s1">'RETAILER_SITE_CODE'</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
-<span class="c1"># Rename the columns</span>
-<span class="n">resultaat</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Country'</span><span class="p">,</span> <span class="s1">'Number of Branches'</span><span class="p">]</span>
+<span class="c1"># Hernoem de kolommen</span>
+<span class="n">resultaat</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Land'</span><span class="p">,</span> <span class="s1">'Aantal Filialen'</span><span class="p">]</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -10078,26 +10087,26 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Merge the product, product_type, and order_details tables</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voeg de product-, product_type- en order_details-tabellen samen</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">product_type</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'PRODUCT_TYPE_CODE'</span><span class="p">)</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged_data</span><span class="p">,</span> <span class="n">order_details</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'PRODUCT_NUMBER'</span><span class="p">)</span>
 
-<span class="c1"># Filter the merged data for products belonging to the 'Cooking Gear' product type</span>
+<span class="c1"># Filter de samengevoegde gegevens voor producten die behoren tot het producttype 'Cooking Gear'</span>
 <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'PRODUCT_TYPE_EN'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Cooking Gear'</span><span class="p">]</span>
 
-<span class="c1"># Convert 'UNIT_SALE_PRICE' column to numeric using .loc indexer</span>
+<span class="c1"># Zet de 'UNIT_SALE_PRICE' kolom om naar numeriek met behulp van .loc indexer</span>
 <span class="n">filtered_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">'UNIT_SALE_PRICE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">filtered_data</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
 
-<span class="c1"># Perform a groupby operation on the product name and calculate the total quantity sold and average sale price</span>
+<span class="c1"># Voer een groupby-operatie uit op de productnaam en bereken de totale verkochte hoeveelheid en gemiddelde verkoopprijs</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'PRODUCT_NAME'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">'QUANTITY'</span><span class="p">:</span> <span class="s1">'sum'</span><span class="p">,</span> <span class="s1">'UNIT_SALE_PRICE'</span><span class="p">:</span> <span class="s1">'mean'</span><span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
-<span class="c1"># Rename the columns</span>
-<span class="n">resultaat</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Product Name'</span><span class="p">,</span> <span class="s1">'Total Quantity Sold'</span><span class="p">,</span> <span class="s1">'Average Sale Price'</span><span class="p">]</span>
+<span class="c1"># Hernoem de kolommen</span>
+<span class="n">resultaat</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Productnaam'</span><span class="p">,</span> <span class="s1">'Totaal verkochte hoeveelheid'</span><span class="p">,</span> <span class="s1">'Gemiddelde verkoopprijs'</span><span class="p">]</span>
 
-<span class="c1"># Sort the result by the total quantity sold</span>
-<span class="n">resultaat</span> <span class="o">=</span> <span class="n">resultaat</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'Total Quantity Sold'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># Sorteer het resultaat op de totale verkochte hoeveelheid</span>
+<span class="n">resultaat</span> <span class="o">=</span> <span class="n">resultaat</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'Totaal verkochte hoeveelheid'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">resultaat</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -10221,23 +10230,23 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Perform the joins</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voer de joins uit</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sales_staff</span><span class="p">,</span> <span class="n">sales_branch</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'SALES_BRANCH_CODE'</span><span class="p">)</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged_data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'SALES_STAFF_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Apply filters</span>
+<span class="c1"># Pas filters toe</span>
 <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'CITY'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">'Amsterdam'</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'SALES_YEAR'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'2022'</span><span class="p">)]</span>
 
-<span class="c1"># Group by and aggregate functions</span>
+<span class="c1"># Group by en aggregate functies</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">filtered_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'FIRST_NAME'</span><span class="p">,</span> <span class="s1">'LAST_NAME'</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">'SALES_TARGET'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'min'</span><span class="p">,</span> <span class="s1">'max'</span><span class="p">]})</span>
 
-<span class="c1"># Flatten the multi-index column names</span>
+<span class="c1"># Maak de kolomnamen met meerdere indexen vlak</span>
 <span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'_'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
 
-<span class="c1"># Rename the columns</span>
+<span class="c1"># Hernoem de kolommen</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'SALES_TARGET_min'</span><span class="p">:</span> <span class="s1">'Laagste'</span><span class="p">,</span> <span class="s1">'SALES_TARGET_max'</span><span class="p">:</span> <span class="s1">'Hoogste'</span><span class="p">})</span>
 
-<span class="c1"># Reset index to make 'FIRST_NAME' and 'LAST_NAME' regular columns</span>
+<span class="c1"># Reset de index om van 'FIRST_NAME' en 'LAST_NAME' gewone kolommen te maken</span>
 <span class="n">result</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">result</span>
@@ -10332,16 +10341,16 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Merge the country and sales_branch tables on 'COUNTRY_CODE'</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voeg de country- en sales_branch-tabellen samen op 'COUNTRY_CODE'</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="n">sales_branch</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'COUNTRY_CODE'</span><span class="p">)</span>
 
-<span class="c1"># Perform a groupby operation on the 'COUNTRY' column and count the number of unique cities</span>
+<span class="c1"># Voer een groupby-operatie uit op de kolom 'COUNTRY' en tel het aantal unieke steden</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">merged_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'COUNTRY'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">'CITY'</span><span class="p">:</span> <span class="s1">'nunique'</span><span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 
-<span class="c1"># Rename the column</span>
-<span class="n">resultaat</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Country'</span><span class="p">,</span> <span class="s1">'Hoeveelheid Unieke Klanten'</span><span class="p">]</span>
+<span class="c1"># Hernoem de kolom</span>
+<span class="n">resultaat</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Land'</span><span class="p">,</span> <span class="s1">'Aantal Unieke Steden'</span><span class="p">]</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -10515,16 +10524,16 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Merge the sales_staff and order_header tables on 'SALES_STAFF_CODE' using a left join</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voeg de sales_staff- en order_header-tabellen samen op 'SALES_STAFF_CODE' met een left join</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sales_staff</span><span class="p">,</span> <span class="n">order_header</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'SALES_STAFF_CODE'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
 
-<span class="c1"># Filter the merged data for rows where 'ORDER_NUMBER' is null</span>
+<span class="c1"># Filter de samengevoegde gegevens voor rijen waar 'ORDER_NUMBER' null is</span>
 <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'ORDER_NUMBER'</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 
-<span class="c1"># Select the columns for first name and last name</span>
+<span class="c1"># Selecteer de kolommen voor voornaam en achternaam</span>
 <span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_data</span><span class="p">[[</span><span class="s1">'FIRST_NAME'</span><span class="p">,</span> <span class="s1">'LAST_NAME'</span><span class="p">]]</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -10712,22 +10721,22 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Calculate the average margin of all products</span>
-<span class="n">average_margin</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Bereken de gemiddelde marge van alle producten</span>
+<span class="n">gemiddelde_marge</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-<span class="c1"># Filter the products where the margin is lower than the average margin</span>
-<span class="n">filtered_products</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">average_margin</span><span class="p">]</span>
+<span class="c1"># Filter de producten waar de marge lager is dan het gemiddelde van de marge</span>
+<span class="n">gefilterde_producten</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="n">product</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">gemiddelde_marge</span><span class="p">]</span>
 
-<span class="c1"># Count the number of products that meet the filter condition</span>
-<span class="n">number_of_products</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">filtered_products</span><span class="p">)</span>
+<span class="c1"># Tel het aantal producten dat voldoet aan de filtervoorwaarde</span>
+<span class="n">aantal_producten</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gefilterde_producten</span><span class="p">)</span>
 
-<span class="c1"># Calculate the average margin of the filtered products</span>
-<span class="n">average_margin_filtered</span> <span class="o">=</span> <span class="n">filtered_products</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="c1"># Bereken de gemiddelde marge van de gefilterde producten</span>
+<span class="n">gemiddelde_marge_gefilterd</span> <span class="o">=</span> <span class="n">gefilterde_producten</span><span class="p">[</span><span class="s1">'MARGIN'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-<span class="c1"># Create the overview dataframe</span>
-<span class="n">resultaat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Number of Products'</span><span class="p">:</span> <span class="p">[</span><span class="n">number_of_products</span><span class="p">],</span><span class="s1">'Average Margin'</span><span class="p">:</span> <span class="p">[</span><span class="n">average_margin_filtered</span><span class="p">]})</span>
+<span class="c1"># Creëer het overzichtsdataframe</span>
+<span class="n">resultaat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Aantal Producten'</span><span class="p">:</span> <span class="p">[</span><span class="n">aantal_producten</span><span class="p">],</span><span class="s1">'Gemiddelde Marge'</span><span class="p">:</span> <span class="p">[</span><span class="n">gemiddelde_marge_gefilterd</span><span class="p">]})</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
@@ -10795,20 +10804,20 @@ Zet eventuele warnings uit.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Merge the product, order_details, and return_item tables</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Voeg de product-, order_details- en returned_item-tabellen samen</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">order_details</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'PRODUCT_NUMBER'</span><span class="p">)</span>
 <span class="n">merged_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged_data</span><span class="p">,</span> <span class="n">returned_item</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'ORDER_DETAIL_CODE'</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">)</span>
 
-<span class="c1"># Convert UNIT_SALE_PRICE column to numeric</span>
+<span class="c1"># Zet de 'UNIT_SALE_PRICE' kolom om naar numeriek</span>
 <span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
 
-<span class="c1"># Filter the merged data for products sold for more than 500 and never returned</span>
-<span class="n">filtered_data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'RETURN_QUANTITY'</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">())]</span>
+<span class="c1"># Filter de samengevoegde gegevens voor producten die voor meer dan 500 zijn verkocht en nooit zijn geretourneerd</span>
+<span class="n">gefilterde_data</span> <span class="o">=</span> <span class="n">merged_data</span><span class="p">[(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'UNIT_SALE_PRICE'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">merged_data</span><span class="p">[</span><span class="s1">'RETURN_QUANTITY'</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">())]</span>
 
-<span class="c1"># Select the column for product name and get unique values</span>
-<span class="n">resultaat</span> <span class="o">=</span> <span class="n">filtered_data</span><span class="p">[</span><span class="s1">'PRODUCT_NAME'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="c1"># Selecteer de kolom voor productnaam en krijg unieke waarden</span>
+<span class="n">resultaat</span> <span class="o">=</span> <span class="n">gefilterde_data</span><span class="p">[</span><span class="s1">'PRODUCT_NAME'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">resultaat</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'PRODUCT_NAME'</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -10923,21 +10932,21 @@ Hint: gebruik een for-loop waarin je o.a. bepaalt of het woord 'Manager' in de f
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create an empty list to store the results</span>
-<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Maak een lege lijst om de resultaten op te slaan</span>
+<span class="n">resultaten</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="c1"># Iterate over each employee</span>
+<span class="c1"># Itereer over elke werknemer</span>
 <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sales_staff</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="c1"># Check if the word 'Manager' is present in the position</span>
+    <span class="c1"># Controleer of het woord 'Manager' aanwezig is in de functie</span>
     <span class="k">if</span> <span class="s1">'Manager'</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s1">'POSITION_EN'</span><span class="p">]:</span>
-        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Ja'</span><span class="p">)</span>
+        <span class="n">resultaten</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Ja'</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Nee'</span><span class="p">)</span>
+        <span class="n">resultaten</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Nee'</span><span class="p">)</span>
 
-<span class="c1"># Add the results as a new column to the sales_staff dataframe</span>
-<span class="n">sales_staff</span><span class="p">[</span><span class="s1">'Is Manager'</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
+<span class="c1"># Voeg de resultaten toe als een nieuwe kolom aan het sales_staff dataframe</span>
+<span class="n">sales_staff</span><span class="p">[</span><span class="s1">'Is Manager'</span><span class="p">]</span> <span class="o">=</span> <span class="n">resultaten</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">sales_staff</span><span class="p">[[</span><span class="s1">'LAST_NAME'</span><span class="p">,</span> <span class="s1">'Is Manager'</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -11140,35 +11149,35 @@ Hint: gebruik een for-loop waarin je o.a. bepaalt of het woord 'Manager' in de f
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 
-<span class="c1"># Get the current year</span>
+<span class="c1"># Haal het huidige jaar op</span>
 <span class="n">current_year</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span>
 
-<span class="c1"># Convert 'DATE_HIRED' column to datetime</span>
+<span class="c1"># Zet de 'DATE_HIRED' kolom om naar datetime</span>
 <span class="n">sales_staff</span><span class="p">[</span><span class="s1">'DATE_HIRED'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">sales_staff</span><span class="p">[</span><span class="s1">'DATE_HIRED'</span><span class="p">],</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># Create empty lists to store the results</span>
+<span class="c1"># Maak lege lijsten om de resultaten op te slaan</span>
 <span class="n">employees</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">tenure</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="c1"># Iterate over each employee</span>
+<span class="c1"># Itereer over elke werknemer</span>
 <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sales_staff</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="c1"># Calculate the number of years in service</span>
+    <span class="c1"># Bereken het aantal jaren in dienst</span>
     <span class="n">years_in_service</span> <span class="o">=</span> <span class="n">current_year</span> <span class="o">-</span> <span class="n">row</span><span class="p">[</span><span class="s1">'DATE_HIRED'</span><span class="p">]</span><span class="o">.</span><span class="n">year</span>
     
-    <span class="c1"># Categorize the tenure</span>
+    <span class="c1"># Categoriseer de diensttijd</span>
     <span class="k">if</span> <span class="n">years_in_service</span> <span class="o">&lt;</span> <span class="mi">25</span><span class="p">:</span>
-        <span class="n">tenure_category</span> <span class="o">=</span> <span class="s1">'Short Tenure'</span>
+        <span class="n">tenure_category</span> <span class="o">=</span> <span class="s1">'Korte diensttijd'</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">tenure_category</span> <span class="o">=</span> <span class="s1">'Long Tenure'</span>
+        <span class="n">tenure_category</span> <span class="o">=</span> <span class="s1">'Lange diensttijd'</span>
     
-    <span class="c1"># Append the employee and tenure category to the lists</span>
+    <span class="c1"># Voeg de werknemer en diensttijd categorie toe aan de lijsten</span>
     <span class="n">employees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'LAST_NAME'</span><span class="p">])</span>
     <span class="n">tenure</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tenure_category</span><span class="p">)</span>
 
-<span class="c1"># Create a dataframe from the lists</span>
-<span class="n">resultaat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Employee'</span><span class="p">:</span> <span class="n">employees</span><span class="p">,</span> <span class="s1">'Tenure Category'</span><span class="p">:</span> <span class="n">tenure</span><span class="p">})</span>
+<span class="c1"># Maak een dataframe van de lijsten</span>
+<span class="n">resultaat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'Werknemer'</span><span class="p">:</span> <span class="n">employees</span><span class="p">,</span> <span class="s1">'Diensttijd Categorie'</span><span class="p">:</span> <span class="n">tenure</span><span class="p">})</span>
 
-<span class="c1"># Show the resulting overview</span>
+<span class="c1"># Toon het resulterende overzicht</span>
 <span class="n">resultaat</span>
 </pre></div>
 </div>
